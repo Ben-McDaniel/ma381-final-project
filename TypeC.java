@@ -1,4 +1,4 @@
-public class TypeB extends plant{
+public class TypeC extends plant{
     double leaf_size;
     double height;
     double reproduction_rate;
@@ -10,7 +10,7 @@ public class TypeB extends plant{
     int last_repro; //# of cycles since last reproduction
     int half_age;
 
-    public TypeB(double leaf_size, double height, double reproduction_rate, double disease_sus, int lifetime, int offspring) {
+    public TypeC(double leaf_size, double height, double reproduction_rate, double disease_sus, int lifetime, int offspring) {
         this.leaf_size = leaf_size;
         this.height = height;
         this.reproduction_rate = reproduction_rate;
@@ -23,7 +23,7 @@ public class TypeB extends plant{
         this.last_repro = 0;
     }
 
-    public TypeB(TypeB parent1, TypeB parent2){
+    public TypeC(TypeC parent1, TypeC parent2){
         this.leaf_size = calculate_trait(parent1.leaf_size, parent2.leaf_size);
         this.height = calculate_trait(parent1.height, parent2.height);
         this.reproduction_rate = calculate_trait(parent1.reproduction_rate, parent2.reproduction_rate);
@@ -57,7 +57,7 @@ public class TypeB extends plant{
 
     @Override
     public String toString() {
-        return "TypeB{" +
+        return "TypeC{" +
                 "leaf_size=" + leaf_size +
                 ", height=" + height +
                 ", reproduction_rate=" + reproduction_rate +
