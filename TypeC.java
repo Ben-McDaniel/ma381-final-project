@@ -57,17 +57,15 @@ public class TypeC extends plant{
 
     @Override
     public String toString() {
-        return "TypeC{" +
-                "leaf_size=" + leaf_size +
-                ", height=" + height +
-                ", reproduction_rate=" + reproduction_rate +
-                ", disease_sus=" + disease_sus +
-                ", lifetime=" + lifetime +
-                ", offspring=" + offspring +
-                ", age=" + age +
-                ", half_age=" + half_age +
-                ", last_repro=" + last_repro +
-                '}';
+        return   "" + leaf_size +
+                "," + height +
+                "," + reproduction_rate +
+                "," + disease_sus +
+                "," + lifetime +
+                "," + offspring +
+                "," + age +
+                "," + half_age +
+                "," + last_repro;
     }
 
     
