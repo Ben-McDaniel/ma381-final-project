@@ -7,15 +7,15 @@ class Project extends Thread{
         Random rand = new Random();
         double disease_strength = 0.5; //input parameter for how deadly/infectious the disease is
         int total_cycles = 100;
-        int event_cycle = 50;
-        int starting_typeA = 5000;
-        int starting_typeB = 5000;
-        int starting_typeC = 5000;
-        int starting_typeD = 5000;
-        int starting_typeE = 5000;
-        int starting_typeF = 5000;
+        int event_cycle = 25;
+        int starting_typeA = 500;
+        int starting_typeB = 500;
+        int starting_typeC = 500;
+        int starting_typeD = 500;
+        int starting_typeE = 500;
+        int starting_typeF = 500;
 
-        int maxPopulation = 50000;
+        int maxPopulation = 100000;
 
         // int current_cycle = 0;
 
@@ -50,29 +50,34 @@ class Project extends Thread{
 
 
 
-        for(int i = 0; i < starting_typeA; i++){
-            typeA_list.add(new TypeA(7, 5,  0.38, 0.32, 16, 1));
-        }
-        for(int i = 0; i < starting_typeB; i++){
-            typeB_list.add(new TypeB(4, 9,  0.23, 0.52, 26, 3));
-        }
-        for(int i = 0; i < starting_typeC; i++){
-            typeC_list.add(new TypeC(2, 7, 0.77, 0.47, 30, 2));
-        }
-        for(int i = 0; i < starting_typeD; i++){
-            typeD_list.add(new TypeD(3, 2, 0.62, 0.2, 28, 3));
-        }
-        for(int i = 0; i < starting_typeE; i++){
-            typeE_list.add(new TypeE(3, 4, 0.44, 0.28, 33, 1));
-        }
-        for(int i = 0; i < starting_typeF; i++){
-            typeF_list.add(new TypeF(5, 5, 0.33, 0.69, 19, 4));
-        }
+        
 
 
 
 
         for(int current_cycle = 1; current_cycle <= total_cycles; current_cycle++){
+
+            //creation of base stat plants, done over multiple cycles so have age distribution
+            if(current_cycle < 10){
+                for(int i = 0; i < starting_typeA; i++){
+                    typeA_list.add(new TypeA(7, 5,  0.38, 0.32, 16, 1));
+                }
+                for(int i = 0; i < starting_typeB; i++){
+                    typeB_list.add(new TypeB(4, 9,  0.23, 0.52, 26, 3));
+                }
+                for(int i = 0; i < starting_typeC; i++){
+                    typeC_list.add(new TypeC(2, 7, 0.77, 0.47, 30, 2));
+                }
+                for(int i = 0; i < starting_typeD; i++){
+                    typeD_list.add(new TypeD(3, 2, 0.62, 0.2, 28, 3));
+                }
+                for(int i = 0; i < starting_typeE; i++){
+                    typeE_list.add(new TypeE(3, 4, 0.44, 0.28, 33, 1));
+                }
+                for(int i = 0; i < starting_typeF; i++){
+                    typeF_list.add(new TypeF(5, 5, 0.33, 0.69, 19, 4));
+                }
+            }
 
 
             final long startTime = System.currentTimeMillis();
@@ -87,7 +92,7 @@ class Project extends Thread{
             }
             ArrayList<TypeB> repro_readyB = new ArrayList<TypeB>();
             for (TypeB i : typeB_list) {
-                if(i.last_repro >= i.reproduction_rate){
+                if(i.last_repro >= i.cycles_between){
                     repro_readyB.add(i);
                 }
             }
@@ -355,12 +360,19 @@ class Project extends Thread{
 
 
 
+    System.out.println(typeA_list.size());     
+    System.out.println(typeB_list.size());            
+    System.out.println(typeC_list.size());            
+    System.out.println(typeD_list.size());            
+    System.out.println(typeE_list.size());            
+    System.out.println(typeF_list.size()); 
+    System.out.println("----");           
 
 
 
     while (typeA_list.size() + typeB_list.size() + typeC_list.size() + typeD_list.size() + typeE_list.size() + typeF_list.size() > maxPopulation) {
                     int totalSize = typeA_list.size() + typeB_list.size() + typeC_list.size() + typeD_list.size() + typeE_list.size() + typeF_list.size();
-                
+                    System.out.println(totalSize);
                     if (!typeA_list.isEmpty()) {
                         double removalRatio = (double) typeA_list.size() / totalSize;
                         int removalCount = (int) (removalRatio * typeA_list.size());
@@ -500,6 +512,15 @@ class Project extends Thread{
             
 
 
+            System.out.println(typeA_list.size());     
+            System.out.println(typeB_list.size());            
+            System.out.println(typeC_list.size());            
+            System.out.println(typeD_list.size());            
+            System.out.println(typeE_list.size());            
+            System.out.println(typeF_list.size()); 
+            System.out.println("----"); 
+
+
             //write data to csv file
             String line = current_cycle + "," + typeA_list.size() + "," + typeB_list.size() + "," + typeC_list.size() + "," + typeD_list.size() + "," + typeE_list.size() + "," + typeF_list.size() + "\n";
             fw.write(line);
@@ -507,41 +528,41 @@ class Project extends Thread{
             final long endTime = System.currentTimeMillis();
             System.out.print("Current Cycle: " + current_cycle + " | Generation Runtime: " + (endTime - startTime) + "ms");
 
-            if (!typeA_list.isEmpty()) {
-                fwA.write(averageA(typeA_list).toString() + "\n");
-            } else {
-                fwA.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeA_list.isEmpty()) {
+            //     fwA.write(averageA(typeA_list).toString() + "\n");
+            // } else {
+            //     fwA.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
-            if (!typeB_list.isEmpty()) {
-                fwB.write(averageB(typeB_list).toString() + "\n");
-            } else {
-                fwB.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeB_list.isEmpty()) {
+            //     fwB.write(averageB(typeB_list).toString() + "\n");
+            // } else {
+            //     fwB.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
-            if (!typeC_list.isEmpty()) {
-                fwC.write(averageC(typeC_list).toString() + "\n");
-            } else {
-                fwC.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeC_list.isEmpty()) {
+            //     fwC.write(averageC(typeC_list).toString() + "\n");
+            // } else {
+            //     fwC.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
-            if (!typeD_list.isEmpty()) {
-                fwD.write(averageD(typeD_list).toString() + "\n");
-            } else {
-                fwD.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeD_list.isEmpty()) {
+            //     fwD.write(averageD(typeD_list).toString() + "\n");
+            // } else {
+            //     fwD.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
-            if (!typeE_list.isEmpty()) {
-                fwE.write(averageE(typeE_list).toString() + "\n");
-            } else {
-                fwE.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeE_list.isEmpty()) {
+            //     fwE.write(averageE(typeE_list).toString() + "\n");
+            // } else {
+            //     fwE.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
-            if (!typeF_list.isEmpty()) {
-                fwF.write(averageF(typeF_list).toString() + "\n");
-            } else {
-                fwF.write("0,0,0,0,0,0,0,0,0\n");
-            }
+            // if (!typeF_list.isEmpty()) {
+            //     fwF.write(averageF(typeF_list).toString() + "\n");
+            // } else {
+            //     fwF.write("0,0,0,0,0,0,0,0,0\n");
+            // }
             
 
         }
@@ -791,6 +812,7 @@ class Project extends Thread{
             TypeA p2 = repro_ready.get(plant2);
 
             p1.last_repro = 0;
+            p2.last_repro = 0;
 
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){
@@ -826,6 +848,9 @@ class Project extends Thread{
             TypeB p1 = repro_ready.get(plant1);
             TypeB p2 = repro_ready.get(plant2);
 
+            p1.last_repro = 0;
+            p2.last_repro = 0;
+
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){
                 for(int i = 0; i < calculate_trait(p1.offspring, p2.offspring); i++){
@@ -858,6 +883,9 @@ class Project extends Thread{
 
             TypeC p1 = repro_ready.get(plant1);
             TypeC p2 = repro_ready.get(plant2);
+
+            p1.last_repro = 0;
+            p2.last_repro = 0;
 
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){
@@ -893,6 +921,9 @@ class Project extends Thread{
             TypeD p1 = repro_ready.get(plant1);
             TypeD p2 = repro_ready.get(plant2);
 
+            p1.last_repro = 0;
+            p2.last_repro = 0;
+
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){
                 for(int i = 0; i < calculate_trait(p1.offspring, p2.offspring); i++){
@@ -927,6 +958,9 @@ class Project extends Thread{
             TypeE p1 = repro_ready.get(plant1);
             TypeE p2 = repro_ready.get(plant2);
 
+            p1.last_repro = 0;
+            p2.last_repro = 0;
+
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){
                 for(int i = 0; i < calculate_trait(p1.offspring, p2.offspring); i++){
@@ -960,6 +994,9 @@ class Project extends Thread{
 
             TypeF p1 = repro_ready.get(plant1);
             TypeF p2 = repro_ready.get(plant2);
+
+            p1.last_repro = 0;
+            p2.last_repro = 0;
 
             //create children and add to list
             if(rand.nextDouble() < calculate_trait(p1.get_reproduction_rate(), p2.get_reproduction_rate())){

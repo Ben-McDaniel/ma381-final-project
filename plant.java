@@ -12,6 +12,7 @@ public class plant {
     int age; //cycles
     int last_repro; //# of cycles since last reproduction
     int half_age;
+    int cycles_between;
 
 
     public double calculate_trait(double t1, double t2){

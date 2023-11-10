@@ -21,6 +21,8 @@ public class TypeC extends plant{
         this.age = 0;
         this.half_age = lifetime/2+1;
         this.last_repro = 0;
+        this.cycles_between = 10;
+
     }
 
     public TypeC(TypeC parent1, TypeC parent2){

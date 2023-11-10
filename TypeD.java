@@ -21,6 +21,8 @@ public class TypeD extends plant{
         this.age = 0;
         this.half_age = lifetime/2+1;
         this.last_repro = 0;
+        this.cycles_between = 10;
+
     }
 
     public TypeD(TypeD parent1, TypeD parent2){
